@@ -26,4 +26,21 @@ function consultarId(req, res) {
   res.json(barber);
 }
 
-module.exports = { consulBarbers, consultarId };
+let proximoId = 3;
+
+function createBarber(req, res) {
+  const newBarber = {
+    id: proximoId,
+    nome: req.body.nome,
+    idade: req.body.idade,
+    especialidade: req.body.especialidade,
+  };
+
+  barbers.push(newBarber);
+
+  proximoId += 1;
+
+  res.json(newBarber);
+}
+
+module.exports = { consulBarbers, consultarId, createBarber };
