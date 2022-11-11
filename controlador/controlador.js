@@ -89,4 +89,40 @@ function createBarber(req, res) {
   res.json(newBarber);
 }
 
-module.exports = { consulBarbers, consultarId, createBarber };
+function editarBarbeiro(req, res) {
+  const barbeiro = barbers.find((b) => b.id === Number(req.params.id));
+
+  if (!barbeiro) {
+    res.status(404);
+    res.json({ erro: "Berbeiro(a)" + req.params.idFilter + "não existe" });
+    return;
+  }
+
+  const erro = validateRegistration({
+    nome: req.body.nome ?? barbeiro.nome,
+    idade: req.body.idade ?? barbeiro.idade,
+    especialidade: req.body.especialidade ?? barbeiro.especialidade,
+  });
+
+  if (erro) {
+    res.status(400);
+    res.json({ erro });
+    return;
+  }
+
+  if (req.body.nome !== undefined) {
+    barbeiro.nome = req.body.nome;
+  }
+
+  if (req.body.idade !== undefined) {
+    barbeiro.idade = req.body.idade;
+  }
+
+  if (req.body.areaDeAtuacao !== undefined) {
+    barbeiro.especialidade = req.body.especialidade;
+  }
+
+  res.json(barbeiro);
+}
+
+module.exports = { consulBarbers, consultarId, createBarber, editarBarbeiro };
